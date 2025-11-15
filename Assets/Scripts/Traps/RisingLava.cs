@@ -29,7 +29,7 @@ public class RisingLava : MonoBehaviour
         Time.timeScale = 0f;
 
         // Show game over UI
-        //GameOverUI.Instance.Show();
+        GameOverUI.Instance.Show();
 
         // Wait 5 seconds (real time, not affected by timeScale)
         yield return new WaitForSecondsRealtime(5f);
