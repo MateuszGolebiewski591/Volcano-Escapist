@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MenuInputController : MonoBehaviour
 {
@@ -11,5 +12,15 @@ public class MenuInputController : MonoBehaviour
         if (Keyboard.current.dKey.wasPressedThisFrame) mainCamera.FilterDeuteranopia();
         if (Keyboard.current.tKey.wasPressedThisFrame) mainCamera.FilterTritanopia();
         if (Keyboard.current.nKey.wasPressedThisFrame) mainCamera.FilterNormal();
+    }
+
+    public void PlayGame()
+    {
+        SceneManager. LoadSceneAsync(1);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
