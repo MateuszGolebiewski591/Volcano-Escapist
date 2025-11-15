@@ -10,8 +10,13 @@ public class Player : MonoBehaviour
     private Vector2 gravityVelocity = Vector2.zero; // velocity along gravity direction
     private string directionOfGravity;
     private Animator anim;
+    private bool grounded = false; // DO NOT USE - for debugging
+    private bool jumpRequested = false;
+    [SerializeField] float coyoteTime = 0.12f;
+    private float coyoteTimer = 0f;
 
     [SerializeField] float speed = 5f;
+    [SerializeField] float gravityOnChange = 2f;
     [SerializeField] float gravityStrength = 9.81f;
     [SerializeField] float airResistance = 20.0f;
     [SerializeField] float jumpForce = 5f;
@@ -25,18 +30,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!isGrounded())
-        {
-            Vector2 g = GravityAcceleration();
-            rb.linearVelocity = g + planarMove;
+        // update coyote timer (grace for jumping after leaving ground)
+        if (isGrounded()) coyoteTimer = coyoteTime; else coyoteTimer -= Time.deltaTime;
+        grounded = isGrounded(); // DO NOT USE - for debugging
 
-        }
-        else
-        {
-            gravityVelocity = Vector2.zero;
-            rb.linearVelocity = LinearVelocity();
-        
-        }
+        // Note: physics velocity updates happen in FixedUpdate to stay in sync with physics
 
         // Rotate sprite to match gravity direction
         if (gravityDir.x > 0)
@@ -101,12 +99,34 @@ public class Player : MonoBehaviour
         anim.SetBool("walk", false);
     }
 
-    // Jump opposite to the current gravity direction. Only works when grounded.
+    // Request a jump; actual jump is performed in FixedUpdate to stay in sync with physics
     public void Jump()
     {
-        if (!isGrounded()) return;
-        gravityVelocity = -gravityDir.normalized * jumpForce;
-        rb.linearVelocity = gravityVelocity + planarMove;
+        jumpRequested = true;
+    }
+
+    void FixedUpdate()
+    {
+        // Process jump request during physics step
+        if (jumpRequested && coyoteTimer > 0f)
+        {
+            jumpRequested = false;
+            coyoteTimer = 0f;
+            gravityVelocity = -gravityDir.normalized * jumpForce;
+            rb.linearVelocity = gravityVelocity + planarMove;
+            return;
+        }
+
+        if (!isGrounded())
+        {
+            Vector2 g = GravityAcceleration();
+            rb.linearVelocity = g + planarMove;
+        }
+        else
+        {
+            gravityVelocity = Vector2.zero;
+            rb.linearVelocity = planarMove;
+        }
     }
 
     // Change the direction of gravity and apply immediate acceleration in that direction
@@ -133,12 +153,7 @@ public class Player : MonoBehaviour
         }
         directionOfGravity = direction;
         gravityDir = newGravityDir;
-        gravityVelocity = (gravityVelocity) + (gravityDir.normalized * gravityStrength);
-    }
-
-    private Vector2 LinearVelocity()
-    {
-        return planarMove;
+        gravityVelocity = (gravityVelocity) + (gravityDir.normalized * gravityOnChange);
     }
 
     private Vector2 GravityAcceleration()
@@ -174,6 +189,7 @@ public class Player : MonoBehaviour
             LayerMask.GetMask("Ground")
         );
 
-        return raycastHit.collider != null;
+        bool grounded = raycastHit.collider != null;
+        return grounded;
     }
 }
