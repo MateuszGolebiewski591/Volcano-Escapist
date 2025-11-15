@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
+    private SpriteRenderer spriteRenderer;
 
     private Vector2 planarMove = Vector2.zero; // movement along axis perpendicular to gravity
     private Vector2 gravityDir = Vector2.down;
@@ -11,9 +13,15 @@ public class Player : MonoBehaviour
     private string directionOfGravity;
     private Animator anim;
     private bool grounded = false; // DO NOT USE - for debugging
+
     private bool jumpRequested = false;
     [SerializeField] float coyoteTime = 0.12f;
     private float coyoteTimer = 0f;
+
+    private bool isStunned = false;
+    private bool isInvincible = false;
+    [SerializeField] float invincibilityDuration = 2f;
+    private Coroutine stunCoroutine = null;
 
     [SerializeField] float speed = 5f;
     [SerializeField] float gravityOnChange = 2f;
@@ -25,6 +33,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
     }
 
@@ -81,6 +90,7 @@ public class Player : MonoBehaviour
     // Move the player in the direction perpendicular to gravity
     public void Move(Vector2 direction)
     {
+        if (isStunned) return;
         if (direction == Vector2.zero)
         {
             planarMove = Vector2.zero;
@@ -102,6 +112,7 @@ public class Player : MonoBehaviour
     // Request a jump; actual jump is performed in FixedUpdate to stay in sync with physics
     public void Jump()
     {
+        if (isStunned) return;
         jumpRequested = true;
     }
 
@@ -132,6 +143,7 @@ public class Player : MonoBehaviour
     // Change the direction of gravity and apply immediate acceleration in that direction
     public void GravityMovement(string direction)
     {
+        if (isStunned) return;
         Vector2 newGravityDir = Vector2.zero;
         switch (direction)
         {
@@ -191,5 +203,65 @@ public class Player : MonoBehaviour
 
         bool grounded = raycastHit.collider != null;
         return grounded;
+    }
+
+    public void Stun(float duration)
+    {
+        // If currently invincible or already stunned, ignore additional stun requests
+        if (isInvincible || isStunned) return;
+
+        GravityMovement("Down");
+
+        // Cancel any existing stun coroutine
+        if (stunCoroutine != null)
+        {
+            StopCoroutine(stunCoroutine);
+            stunCoroutine = null;
+        }
+
+        stunCoroutine = StartCoroutine(StunCoroutine(duration));
+    }
+
+    private IEnumerator StunCoroutine(float duration)
+    {
+        isStunned = true;
+
+        Color originalColor = spriteRenderer.color;
+        float flashInterval = 0.1f; // time between opaque/transparent flashes
+        float elapsedTime = 0f;
+
+        //clear movement so player can't slide while stunned
+        planarMove = Vector2.zero;
+        gravityVelocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
+
+        // Flash opacity repeatedly during stun duration
+        while (elapsedTime < duration)
+        {
+            // Set to semi-transparent (alpha = 0.5)
+            Color transparentColor = originalColor;
+            transparentColor.a = 0.5f;
+            spriteRenderer.color = transparentColor;
+            yield return new WaitForSecondsRealtime(flashInterval);
+            elapsedTime += flashInterval;
+
+            if (elapsedTime < duration)
+            {
+                // Return to original opacity
+                spriteRenderer.color = originalColor;
+                yield return new WaitForSecondsRealtime(flashInterval);
+                elapsedTime += flashInterval;
+            }
+        }
+        spriteRenderer.color = originalColor;
+
+        isStunned = false;
+        stunCoroutine = null;
+        isInvincible = true;
+
+        yield return new WaitForSecondsRealtime(invincibilityDuration);
+        isInvincible = false;
+
+        Debug.Log($"Invincibility ended after {invincibilityDuration} seconds (real time)");
     }
 }
