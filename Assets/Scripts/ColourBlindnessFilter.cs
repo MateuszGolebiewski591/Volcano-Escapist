@@ -5,6 +5,12 @@ public class ColorBlindnessFilter : MonoBehaviour
 {
     public Material material;
     private Matrix4x4 currentMatrix = Matrix4x4.identity;
+    public CameraSettings settings;
+
+    void Start()
+    {
+        currentMatrix = settings.matrix;
+    }
 
     private static readonly Matrix4x4 Protanopia = new Matrix4x4(
         new Vector4(0.567f, 0.433f, 0.0f, 0.0f),
@@ -36,19 +42,23 @@ public class ColorBlindnessFilter : MonoBehaviour
     public void FilterProtanopia()
     {
         material.SetMatrix("_ColorBlindMatrix", Protanopia);
+        settings.matrix = Protanopia;
     }
 
     public void FilterTritanopia()
     {
         material.SetMatrix("_ColorBlindMatrix", Tritanopia);
+        settings.matrix = Tritanopia;
     }
 
     public void FilterDeuteranopia()
     {
         material.SetMatrix("_ColorBlindMatrix", Deuteranopia);
+        settings.matrix = Deuteranopia;
     }
     public void FilterNormal()
     {
         material.SetMatrix("_ColorBlindMatrix", Matrix4x4.identity);
+        settings.matrix = Matrix4x4.identity;
     }
 }
