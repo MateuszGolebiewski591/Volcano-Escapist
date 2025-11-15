@@ -34,6 +34,7 @@
 # Visual Studio cache directory
 .vs/
 .vscode/
+Volcano-Escapist.slnx
 
 # Gradle cache directory
 .gradle/
