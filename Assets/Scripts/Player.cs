@@ -144,6 +144,7 @@ public class Player : MonoBehaviour
     public void GravityMovement(string direction)
     {
         if (isStunned) return;
+        if (direction == directionOfGravity) return; // no change
         Vector2 newGravityDir = Vector2.zero;
         switch (direction)
         {
