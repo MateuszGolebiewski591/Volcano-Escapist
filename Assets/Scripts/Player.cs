@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private Vector2 gravityVelocity = Vector2.zero; // velocity along gravity direction
     private Vector2 priorGravityVelocity = Vector2.zero;
     private string directionOfGravity;
+    private Animator anim;
 
     [SerializeField] float speed = 5f;
     [SerializeField] float gravityStrength = 9.81f;
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -29,13 +30,17 @@ public class Player : MonoBehaviour
         {
             Vector2 g = GravityAcceleration();
             rb.linearVelocity = g + planarMove;
+            
         }
         else
         {
             gravityVelocity = Vector2.zero;
             rb.linearVelocity = LinearVelocity();
+        
         }
+        anim.SetBool("grounded", isGrounded());
     }
+
 
     // Move the player in the direction perpendicular to gravity
     public void Move(Vector2 direction)
@@ -49,11 +54,13 @@ public class Player : MonoBehaviour
         Vector2 tangent = new Vector2(-gravityDir.y, gravityDir.x).normalized; // axis perpendicular to gravity
         float scalar = Vector2.Dot(direction.normalized, tangent);
         planarMove = tangent * scalar * speed;
+        anim.SetBool("walk", true);
     }
 
     public void StopMove()
     {
         planarMove = Vector2.zero;
+        anim.SetBool("walk", false);
     }
 
     // Jump opposite to the current gravity direction. Only works when grounded.
