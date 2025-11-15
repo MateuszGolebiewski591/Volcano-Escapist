@@ -8,10 +8,12 @@ public class Player : MonoBehaviour
     private Vector2 planarMove = Vector2.zero; // movement along axis perpendicular to gravity
     private Vector2 gravityDir = Vector2.down;
     private Vector2 gravityVelocity = Vector2.zero; // velocity along gravity direction
+    private Vector2 priorGravityVelocity = Vector2.zero;
     private string directionOfGravity;
 
     [SerializeField] float speed = 5f;
     [SerializeField] float gravityStrength = 9.81f;
+    [SerializeField] float airResistance = 20.0f;
     [SerializeField] float jumpForce = 5f;
 
     private void Awake()
@@ -30,10 +32,12 @@ public class Player : MonoBehaviour
         }
         else
         {
+            gravityVelocity = Vector2.zero;
             rb.linearVelocity = LinearVelocity();
         }
     }
 
+    // Move the player in the direction perpendicular to gravity
     public void Move(Vector2 direction)
     {
         if (direction == Vector2.zero)
@@ -60,9 +64,11 @@ public class Player : MonoBehaviour
         rb.linearVelocity = gravityVelocity + planarMove;
     }
 
+    // Change the direction of gravity and apply immediate acceleration in that direction
     public void GravityMovement(string direction)
     {
         Vector2 newGravityDir = Vector2.zero;
+        priorGravityVelocity = gravityVelocity;
         switch (direction)
         {
             case "Up":
@@ -83,7 +89,7 @@ public class Player : MonoBehaviour
         }
         directionOfGravity = direction;
         gravityDir = newGravityDir;
-        gravityVelocity = gravityDir.normalized * speed;
+        gravityVelocity = (gravityVelocity) + (gravityDir.normalized * gravityStrength);
     }
 
     private Vector2 LinearVelocity()
@@ -93,6 +99,22 @@ public class Player : MonoBehaviour
 
     private Vector2 GravityAcceleration()
     {
+        // Apply air resistance to gravity velocity - slows down the change in direction over time
+        if (directionOfGravity == "Up" || directionOfGravity == "Down")
+        {
+            if (gravityVelocity.x > 0)
+                gravityVelocity.x = Mathf.Max(0, gravityVelocity.x - Time.deltaTime * airResistance);
+            else if (gravityVelocity.x < 0)
+                gravityVelocity.x = Mathf.Min(0, gravityVelocity.x + Time.deltaTime * airResistance);
+        }
+        else if (directionOfGravity == "Left" || directionOfGravity == "Right")
+        {
+            if (gravityVelocity.y > 0)
+                gravityVelocity.y = Mathf.Max(0, gravityVelocity.y - Time.deltaTime * airResistance);
+            else if (gravityVelocity.y < 0)
+                gravityVelocity.y = Mathf.Min(0, gravityVelocity.y + Time.deltaTime * airResistance);
+        }
+
         gravityVelocity += (gravityDir.normalized * gravityStrength * Time.deltaTime);
         return gravityVelocity;
     }
@@ -110,15 +132,4 @@ public class Player : MonoBehaviour
 
         return raycastHit.collider != null;
     }
-
-    // private void OnCollisionEnter2D(Collision2D collision)
-    // {
-
-
-    // }
-
-    // private void OnCollisionExit2D(Collision2D collision)
-    // {
-
-    // }
 }
