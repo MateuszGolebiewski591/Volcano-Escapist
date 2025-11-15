@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
     private Vector2 planarMove = Vector2.zero; // movement along axis perpendicular to gravity
     private Vector2 gravityDir = Vector2.down;
     private Vector2 gravityVelocity = Vector2.zero; // velocity along gravity direction
-    private Vector2 priorGravityVelocity = Vector2.zero;
     private string directionOfGravity;
     private Animator anim;
 
@@ -30,7 +29,7 @@ public class Player : MonoBehaviour
         {
             Vector2 g = GravityAcceleration();
             rb.linearVelocity = g + planarMove;
-            
+
         }
         else
         {
@@ -38,6 +37,45 @@ public class Player : MonoBehaviour
             rb.linearVelocity = LinearVelocity();
         
         }
+
+        // Rotate sprite to match gravity direction
+        if (gravityDir.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+            // Flip based on vertical planar movement
+            if (planarMove.y > 0.1f)
+                transform.localScale = new Vector3(1, 1, 1);
+            else if (planarMove.y < -0.1f)
+                transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (gravityDir.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, -90);
+            // Flip based on vertical planar movement (reversed for left gravity)
+            if (planarMove.y > 0.1f)
+                transform.localScale = new Vector3(-1, 1, 1);
+            else if (planarMove.y < -0.1f)
+                transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (gravityDir.y > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 180);
+            // Flip based on horizontal planar movement (reversed for up gravity)
+            if (rb.linearVelocity.x > 0.1f)
+                transform.localScale = new Vector3(-1, 1, 1);
+            else if (rb.linearVelocity.x < -0.1f)
+                transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (gravityDir.y < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            // Flip based on horizontal planar movement
+            if (rb.linearVelocity.x > 0.1f)
+                transform.localScale = new Vector3(1, 1, 1);
+            else if (rb.linearVelocity.x < -0.1f)
+                transform.localScale = new Vector3(-1, 1, 1);
+        }
+            
         anim.SetBool("grounded", isGrounded());
     }
 
@@ -75,7 +113,6 @@ public class Player : MonoBehaviour
     public void GravityMovement(string direction)
     {
         Vector2 newGravityDir = Vector2.zero;
-        priorGravityVelocity = gravityVelocity;
         switch (direction)
         {
             case "Up":
