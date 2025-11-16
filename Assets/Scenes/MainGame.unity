@@ -153280,6 +153280,7 @@ GameObject:
   - component: {fileID: 668613322}
   - component: {fileID: 668613321}
   - component: {fileID: 668613324}
+  - component: {fileID: 668613325}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -153373,6 +153374,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 444ef53bb0f47bf4aa5d398fcb290c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShake
+--- !u!114 &668613325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668613320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd211e039d1f8244ab00316bb06af3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorBlindnessFilter
+  material: {fileID: 2100000, guid: 805e2fb1283d8cd489b448d915c1b956, type: 2}
+  settings: {fileID: 11400000, guid: df151bfd4e811ea42b56daa6d667b095, type: 2}
 --- !u!4 &676318317 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2875585633477576852, guid: ab4cdb056caef724b841205819818271, type: 3}
@@ -161964,7 +161979,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1942397543}
   - component: {fileID: 1942397542}
-  - component: {fileID: 1942397541}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -161972,20 +161986,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1942397541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942397540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bd211e039d1f8244ab00316bb06af3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ColorBlindnessFilter
-  material: {fileID: 2100000, guid: 805e2fb1283d8cd489b448d915c1b956, type: 2}
-  settings: {fileID: 11400000, guid: df151bfd4e811ea42b56daa6d667b095, type: 2}
 --- !u!114 &1942397542
 MonoBehaviour:
   m_ObjectHideFlags: 0
