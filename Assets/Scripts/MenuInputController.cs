@@ -7,6 +7,8 @@ public class MenuInputController : MonoBehaviour
     [SerializeField] ColorBlindnessFilter mainCamera; 
     [SerializeField] Disablable mainMenu;
     [SerializeField] Disablable panel;
+
+    [SerializeField] public Selectable[] buttons;
     private int state = 0; //0-7
     
 
@@ -45,20 +47,26 @@ public class MenuInputController : MonoBehaviour
         var gamepad = Gamepad.current;
         if (gamepad != null)
         {
+            buttons[state].Selected();
             if (gamepad.dpad.down.wasPressedThisFrame)
             {
+                buttons[state].Unselect();
                 if(state == 2) state = 0;
                 else if (state == 7) state = 3;
                 else state++;
+                buttons[state].Selected();
             }
             if (gamepad.dpad.up.wasPressedThisFrame)
             {
+                buttons[state].Unselect();
                 if (state == 0) state = 2;
                 else if (state == 3) state = 7;
                 else state--;
+                buttons[state].Selected();
             }
             if (gamepad.dpad.right.wasPressedThisFrame)
             {
+                buttons[state].Unselect();
                 if (state == 0) PlayGame();
                 if (state == 1)// pull up settings
                 {
@@ -77,6 +85,7 @@ public class MenuInputController : MonoBehaviour
                     panel.Disable();
                     state = 1;
                 }
+                buttons[state].Selected();
             }
         }
     }
