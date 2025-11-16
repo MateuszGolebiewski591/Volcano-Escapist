@@ -6,6 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class StaticLava : MonoBehaviour
 {
+    [SerializeField] private AudioClip gameoverSfx = null;
+    private AudioSource audioSource = null;
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -16,6 +28,11 @@ public class StaticLava : MonoBehaviour
 
     private IEnumerator HandleGameOver()
     {
+        if (gameoverSfx != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(gameoverSfx);
+        }
+
         // Pause game
         Time.timeScale = 0f;
 

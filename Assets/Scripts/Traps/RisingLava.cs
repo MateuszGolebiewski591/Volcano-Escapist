@@ -7,6 +7,18 @@ using UnityEngine.SceneManagement;
 public class RisingLava : MonoBehaviour
 {
     [SerializeField] float speed = 1.0f;
+    [SerializeField] private AudioClip gameoverSfx = null;
+    private AudioSource audioSource = null;
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+        }
+    }
 
 
     // Update is called once per frame
@@ -25,6 +37,11 @@ public class RisingLava : MonoBehaviour
 
     private IEnumerator HandleGameOver()
     {
+        if (gameoverSfx != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(gameoverSfx);
+        }
+        
         // Pause game
         Time.timeScale = 0f;
 

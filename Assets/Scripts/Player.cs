@@ -22,12 +22,27 @@ public class Player : MonoBehaviour
     private bool isInvincible = false;
     [SerializeField] float invincibilityDuration = 2f;
     private Coroutine stunCoroutine = null;
-
+    
     [SerializeField] float speed = 5f;
     [SerializeField] float gravityOnChange = 2f;
     [SerializeField] float gravityStrength = 9.81f;
     [SerializeField] float airResistance = 20.0f;
     [SerializeField] float jumpForce = 5f;
+
+    // Audio Files
+    [SerializeField] private AudioClip WalkSfx = null;
+    [SerializeField] private AudioClip jumpSfx = null;
+    [SerializeField] private AudioClip gravitySfx = null;
+    [SerializeField] private AudioClip fallSfx = null;
+    [SerializeField] private AudioClip collideSfx = null;
+    [SerializeField] private AudioClip stunSfx = null;
+    private AudioSource audioSource = null;
+
+    // Additional audio variables
+    private AudioSource loopSource;
+    [SerializeField] private AudioClip[] footstepClips;
+    private float footstepCooldown = 0.2f;
+    private float lastFootstepTime = 0f;
 
     private void Awake()
     {
@@ -35,6 +50,19 @@ public class Player : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        // Ensure we have an AudioSource for playing SFX
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+        }
+
+        // Set up looped audio source for walking
+        loopSource = gameObject.AddComponent<AudioSource>();
+        loopSource.clip = WalkSfx;
+        loopSource.loop = true;
+        loopSource.playOnAwake = false;
     }
 
     void Update()
@@ -100,6 +128,19 @@ public class Player : MonoBehaviour
         Vector2 tangent = new Vector2(-gravityDir.y, gravityDir.x).normalized; // axis perpendicular to gravity
         float scalar = Vector2.Dot(direction.normalized, tangent);
         planarMove = tangent * scalar * speed;
+
+        // Start looped walk sound only when movement begins
+        if (WalkSfx != null && !loopSource.isPlaying)
+            loopSource.Play();
+
+        // Optionally also play an initial footstep one-shot with cooldown
+        if (footstepClips != null && footstepClips.Length > 0 && Time.time - lastFootstepTime > footstepCooldown)
+        {
+            var clip = footstepClips[Random.Range(0, footstepClips.Length)];
+            audioSource.PlayOneShot(clip, 0.8f);
+            lastFootstepTime = Time.time;
+        }
+
         anim.SetBool("walk", true);
     }
 
@@ -107,6 +148,10 @@ public class Player : MonoBehaviour
     {
         planarMove = Vector2.zero;
         anim.SetBool("walk", false);
+
+        // Stop looped walk sound immediately when movement stops
+        if (loopSource != null && loopSource.isPlaying)
+            loopSource.Stop();
     }
 
     // Request a jump; actual jump is performed in FixedUpdate to stay in sync with physics
@@ -123,6 +168,12 @@ public class Player : MonoBehaviour
         {
             jumpRequested = false;
             coyoteTimer = 0f;
+
+            if (jumpSfx != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(jumpSfx);
+            }
+
             gravityVelocity = -gravityDir.normalized * jumpForce;
             rb.linearVelocity = gravityVelocity + planarMove;
             return;
@@ -166,7 +217,12 @@ public class Player : MonoBehaviour
         }
         directionOfGravity = direction;
         gravityDir = newGravityDir;
-        gravityVelocity = (gravityVelocity) + (gravityDir.normalized * gravityOnChange);
+        gravityVelocity = gravityVelocity + (gravityDir.normalized * gravityOnChange);
+
+        if (gravitySfx != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(gravitySfx);
+        }
     }
 
     private Vector2 GravityAcceleration()
@@ -187,7 +243,7 @@ public class Player : MonoBehaviour
                 gravityVelocity.y = Mathf.Min(0, gravityVelocity.y + Time.deltaTime * airResistance);
         }
 
-        gravityVelocity += (gravityDir.normalized * gravityStrength * Time.deltaTime);
+        gravityVelocity += gravityDir.normalized * gravityStrength * Time.deltaTime;
         return gravityVelocity;
     }
 
@@ -221,6 +277,12 @@ public class Player : MonoBehaviour
         }
 
         stunCoroutine = StartCoroutine(StunCoroutine(duration));
+
+        // Play stun sound
+        if (stunSfx != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(stunSfx);
+        }
     }
 
     private IEnumerator StunCoroutine(float duration)
