@@ -12,6 +12,7 @@ public class GameWinUI : MonoBehaviour
     public static GameWinUI Instance;
 
     public GameObject gameWinPanel;
+    [SerializeField] GameObject uiText;
 
     private void Awake()
     {
@@ -39,6 +40,7 @@ public class GameWinUI : MonoBehaviour
         // Pause game
         Time.timeScale = 0f;
 
+        uiText.SetActive(false);
         // Show game over UI
         gameWinPanel.SetActive(true);
 

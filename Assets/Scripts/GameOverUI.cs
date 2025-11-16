@@ -5,6 +5,7 @@ public class GameOverUI : MonoBehaviour
     public static GameOverUI Instance;
 
     public GameObject gameOverPanel;
+    [SerializeField] GameObject uiText;
 
     private void Awake()
     {
@@ -14,6 +15,7 @@ public class GameOverUI : MonoBehaviour
 
     public void Show()
     {
+        uiText.SetActive(false);
         gameOverPanel.SetActive(true);
     }
 }
