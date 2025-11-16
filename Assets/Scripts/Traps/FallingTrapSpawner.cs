@@ -37,6 +37,25 @@ public class FallingTrapSpawner : MonoBehaviour
         spawnTimer = Random.Range(minInterval, maxInterval);
     }
 
+    public void SetTemporarySpawnRate(float fastMinInterval, float fastMaxInterval, float duration)
+    {
+        StartCoroutine(TemporarySpawnRateCoroutine(fastMinInterval, fastMaxInterval, duration));
+    }
+
+    private System.Collections.IEnumerator TemporarySpawnRateCoroutine(float fastMin, float fastMax, float duration)
+    {
+        float originalMinInterval = minInterval;
+        float originalMaxInterval = maxInterval;
+
+        minInterval = fastMin;
+        maxInterval = fastMax;
+
+        yield return new WaitForSeconds(duration);
+
+        minInterval = originalMinInterval;
+        maxInterval = originalMaxInterval;
+    }
+
     void SpawnTrapNearPlayer()
     {
         // pick a random angle and distance in an annulus around the player
