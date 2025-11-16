@@ -35,6 +35,8 @@
 .vs/
 .vscode/
 Volcano-Escapist.slnx
+Assets/Fonts
+Assets/TextMesh-Pro
 
 # Gradle cache directory
 .gradle/
