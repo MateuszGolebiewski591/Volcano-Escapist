@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameWinUI : MonoBehaviour
 {
@@ -36,6 +37,11 @@ public class GameWinUI : MonoBehaviour
         if (winSfx != null && audioSource != null)
         {
             audioSource.PlayOneShot(winSfx);
+        }
+        var gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            gamepad.SetMotorSpeeds(0, 0);
         }
         // Pause game
         Time.timeScale = 0f;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DistanceVolume : MonoBehaviour
 {
@@ -22,9 +23,18 @@ public class DistanceVolume : MonoBehaviour
     void Update()
     {
         float distance = player.position.y - transform.position.y;
-        Debug.Log("Distance: " + distance);
-        Debug.Log("Distance to player: " + distance/maxDistance);
         float volume = 1 - distance / maxDistance;
         audioSource.volume = volume;
+
+        var gamepad = Gamepad.current;
+        if (Gamepad.current != null && distance < maxDistance && distance > minDistance) {
+            float vibrationDistance = volume / 10f;
+            Gamepad.current.SetMotorSpeeds(vibrationDistance, vibrationDistance);
+        }else {
+            if (gamepad != null) {
+                gamepad.SetMotorSpeeds(0, 0);
+            }
+        }
+
     }
 }
