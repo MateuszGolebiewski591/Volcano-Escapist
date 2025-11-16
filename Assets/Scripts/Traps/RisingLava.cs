@@ -20,6 +20,14 @@ public class RisingLava : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Increases the lava movement speed by the given amount.
+    /// </summary>
+    public void IncreaseSpeed(float amount)
+    {
+        speed += amount;
+    }
+
 
     // Update is called once per frame
     void Update()

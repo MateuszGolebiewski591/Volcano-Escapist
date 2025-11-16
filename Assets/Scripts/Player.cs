@@ -33,8 +33,8 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip WalkSfx = null;
     [SerializeField] private AudioClip jumpSfx = null;
     [SerializeField] private AudioClip gravitySfx = null;
-    [SerializeField] private AudioClip fallSfx = null;
-    [SerializeField] private AudioClip collideSfx = null;
+    // [SerializeField] private AudioClip fallSfx = null;
+    // [SerializeField] private AudioClip collideSfx = null;
     [SerializeField] private AudioClip stunSfx = null;
     private AudioSource audioSource = null;
 

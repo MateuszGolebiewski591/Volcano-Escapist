@@ -6,10 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class GameWinUI : MonoBehaviour
 {
+    [SerializeField] private AudioClip winSfx = null;
+    private AudioSource audioSource = null;
 
     public static GameWinUI Instance;
 
     public GameObject gameWinPanel;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -20,6 +32,10 @@ public class GameWinUI : MonoBehaviour
 
     private IEnumerator HandleGameWin()
     {
+        if (winSfx != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(winSfx);
+        }
         // Pause game
         Time.timeScale = 0f;
 
