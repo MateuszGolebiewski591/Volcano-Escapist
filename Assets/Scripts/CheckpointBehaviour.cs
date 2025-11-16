@@ -3,17 +3,17 @@ using UnityEngine;
 public class CheckpointBehaviour : MonoBehaviour
 {
     [SerializeField] private float lavaSpeedIncrease = 0.5f;
-    [SerializeField] private RisingLava risingLava = null;
+    [SerializeField] private RisingLava risingLava;
+    private bool triggered = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Checkpoint reached! Increasing lava speed.");
         // Check if the player crossed this checkpoint
-        if (other.CompareTag("Player") && risingLava != null)
+        if (other.CompareTag("Player") && !triggered)
         {
-            Debug.Log("Checkpoint reached! Increasing lava speed.");
             // Increase lava speed
             risingLava.IncreaseSpeed(lavaSpeedIncrease);
+            triggered = true;
         }
     }
 }
