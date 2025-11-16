@@ -83797,6 +83797,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2263794915855825385, guid: 3ce9dc75dec87774a871b87a4520b261, type: 3}
   m_PrefabInstance: {fileID: 71853668}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &93109427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 93109429}
+  - component: {fileID: 93109428}
+  m_Layer: 0
+  m_Name: RumbleController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &93109428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93109427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cdda3788011e284eaac867c2d4de827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RumbleController
+  gameover: 0
+--- !u!4 &93109429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93109427}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 866720056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &101733772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -153818,6 +153863,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 866720056}
+  - component: {fileID: 866720057}
   m_Layer: 0
   m_Name: GameEvents
   m_TagString: Untagged
@@ -153839,13 +153885,25 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 692917637}
-  - {fileID: 7496035998587544111}
-  - {fileID: 2022197940}
   - {fileID: 1522019799}
   - {fileID: 676318317}
   - {fileID: 1826571638}
+  - {fileID: 93109429}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &866720057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866720055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cdda3788011e284eaac867c2d4de827, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RumbleController
+  gameover: 0
 --- !u!1 &888533374
 GameObject:
   m_ObjectHideFlags: 0
@@ -157749,71 +157807,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109295982}
   m_CullTransparentMesh: 1
---- !u!1001 &1151450542
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 866720056}
-    m_Modifications:
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -857.127
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -528.5373
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2271809791291845320, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_Name
-      value: Checkpoint 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3854389193297525129, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: risingLava
-      value: 
-      objectReference: {fileID: 1772102265}
-    - target: {fileID: 3854389193297525129, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: lavaSpeedIncrease
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
 --- !u!1001 &1162946971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158596,7 +158589,7 @@ Transform:
   m_GameObject: {fileID: 1391324656}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.54, z: 0}
+  m_LocalPosition: {x: -0.3, y: -0.543, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -161541,7 +161534,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DistanceVolume
   player: {fileID: 1391324661}
   maxDistance: 20
-  minDistance: 2
+  intensity: 0.4
+  rumbleController: {fileID: 93109428}
   sfx: {fileID: 8300000, guid: 24ea98003bcff064b904b2880e41ca63, type: 3}
   loop: 1
 --- !u!4 &1826571638 stripped
@@ -161892,6 +161886,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameOverUI
   gameOverPanel: {fileID: 1109295982}
   uiText: {fileID: 888533374}
+  rumbleController: {fileID: 93109428}
 --- !u!4 &1888669011
 Transform:
   m_ObjectHideFlags: 0
@@ -162446,11 +162441,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2263794915855825385, guid: 3ce9dc75dec87774a871b87a4520b261, type: 3}
   m_PrefabInstance: {fileID: 2019860229}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2022197940 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-  m_PrefabInstance: {fileID: 1151450542}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2032629941
 PrefabInstance:
@@ -165391,67 +165381,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe5404e80bd77834a872ead3582662f8, type: 3}
---- !u!1001 &1499388837517070352
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 866720056}
-    m_Modifications:
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -870.06696
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -563.0273
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2271809791291845320, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: m_Name
-      value: Checkpoint 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3854389193297525129, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-      propertyPath: risingLava
-      value: 
-      objectReference: {fileID: 1772102265}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
 --- !u!4 &3102791112672910454 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1704275938487644318, guid: fdd96390b44cea6429637ca6d8024688, type: 3}
@@ -165639,6 +165568,10 @@ PrefabInstance:
       propertyPath: gameWinPanel
       value: 
       objectReference: {fileID: 1444240270}
+    - target: {fileID: 4228700245397596972, guid: fdd96390b44cea6429637ca6d8024688, type: 3}
+      propertyPath: rumbleController
+      value: 
+      objectReference: {fileID: 93109428}
     - target: {fileID: 8682733286584256200, guid: fdd96390b44cea6429637ca6d8024688, type: 3}
       propertyPath: m_Name
       value: GameWinObject
@@ -165648,11 +165581,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdd96390b44cea6429637ca6d8024688, type: 3}
---- !u!4 &7496035998587544111 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1488665474354686793, guid: fa4eb1c689eed6246ab55a19bb49f5d6, type: 3}
-  m_PrefabInstance: {fileID: 1499388837517070352}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8334099030277053005
 PrefabInstance:
   m_ObjectHideFlags: 0

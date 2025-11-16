@@ -14,6 +14,7 @@ public class GameWinUI : MonoBehaviour
 
     public GameObject gameWinPanel;
     [SerializeField] GameObject uiText;
+    [SerializeField] RumbleController rumbleController;
 
     private void Awake()
     {
@@ -46,6 +47,7 @@ public class GameWinUI : MonoBehaviour
         // Pause game
         Time.timeScale = 0f;
 
+        rumbleController.gameover = true;
         uiText.SetActive(false);
         // Show game over UI
         gameWinPanel.SetActive(true);

@@ -4,8 +4,10 @@ using UnityEngine.InputSystem;
 public class DistanceVolume : MonoBehaviour
 {
     public Transform player;
-    public float maxDistance = 20f;
-    public float minDistance = 2f;
+    public float maxDistance = 15f;
+    private bool gameover = false;
+    [SerializeField] private float intensity = 0.1f;
+    [SerializeField] RumbleController rumbleController;
 
     [SerializeField] private AudioClip sfx = null;
     private AudioSource audioSource;
@@ -26,14 +28,9 @@ public class DistanceVolume : MonoBehaviour
         float volume = 1 - distance / maxDistance;
         audioSource.volume = volume;
 
-        var gamepad = Gamepad.current;
-        if (Gamepad.current != null && distance < maxDistance && distance > minDistance) {
-            float vibrationDistance = volume / 10f;
-            Gamepad.current.SetMotorSpeeds(vibrationDistance, vibrationDistance);
-        }else {
-            if (gamepad != null) {
-                gamepad.SetMotorSpeeds(0, 0);
-            }
+        if (distance < maxDistance) {
+            float rumble = Mathf.Pow(volume, 2f) * intensity;
+            rumbleController.SetRumble(rumble, rumble);
         }
 
     }
