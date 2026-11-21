@@ -74,7 +74,7 @@ public class MenuInputController : MonoBehaviour
                     panel.Enable();
                     state = 3;
                 } 
-                if (state == 2); QuitGame();
+                //if (state == 2); QuitGame();
                 if (state == 3) Normal();
                 if (state == 4) Protanopia();
                 if (state == 5) Deuteranopia();
